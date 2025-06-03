@@ -51,14 +51,14 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('yuyuu.png'); /* 换成你要飘的图 */
+  background-image: url('background.png');
   background-repeat: no-repeat;
-  background-size: 300px auto; /* 或者 contain */
+  background-size: 300px auto; 
   background-position: 50% 50%;
   animation: floatImage 10s ease-in-out infinite alternate;
-  opacity: 0.1; /* 半透明 */
+  opacity: 0.1; 
   z-index: 0;
-  pointer-events: none; /* 不影响按钮点击 */
+  pointer-events: none; 
 }
 
 #home {
