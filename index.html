@@ -7,21 +7,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- 首页 -->
+  <div class="floating-bg"></div> 
+
   <div id="home" class="screen active">
-    <div class="floating-bg"></div> 
     <h1>接住玉玉</h1>
     <button onclick="startGame()">开始玉玉</button>
   </div>
 
-  <!-- 游戏界面 -->
   <div id="game" class="screen">
     <div id="timer">倒计时：20</div>
     <div id="score">得分：0</div>
     <div id="game-board"></div>
   </div>
 
-  <!-- 成绩界面 -->
   <div id="result" class="screen">
     <h2>时间到！</h2>
     <p id="insult-line"></p>
@@ -32,11 +30,11 @@
     <button onclick="goHome()">回到主页</button>
   </div>
 
-  <!-- 音效 -->
   <audio id="click-sound" src="click.mp3"></audio>
   <audio id="fail-sound" src="fail.mp3"></audio>
   <audio id="end2" src="end2.mp3"></audio>
 
   <script src="script.js"></script>
 </body>
+
 </html>
