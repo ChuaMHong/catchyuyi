@@ -32,6 +32,18 @@ body {
   display: flex;
 }
 
+.floating-bg {
+  background-color: red; /* 添加这个颜色测试 */
+  background-image: url('background.png');
+  background-repeat: no-repeat;
+  background-size: 300px auto; 
+  background-position: 50% 50%;
+  animation: floatImage 10s ease-in-out infinite alternate;
+  opacity: 0.1; 
+  z-index: 0;
+  pointer-events: none;
+}
+
 button {
   margin: 1rem;
   padding: 1rem 2rem;
