@@ -16,11 +16,13 @@ const insultText = document.getElementById("insult-line");
 const photo1 = 'photo1.jpg';
 const photo2 = 'photo2.jpg';
 
-let time = 20;
+const GAME_DURATION = 20;
+let time = GAME_DURATION;
 let score = 0;
 let best = localStorage.getItem("best") || 0;
 let interval = null;
 let timerStarted = false;
+let gameEnded = false;
 
 function showScreen(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -28,9 +30,10 @@ function showScreen(screen) {
 }
 
 function startGame() {
-  time = 20;
+  time = GAME_DURATION;
   score = 0;
   timerStarted = false;
+  gameEnded = false;
   board.classList.remove("centered");
   timerDisplay.textContent = `倒计时：${time}`;
   scoreDisplay.textContent = `得分：${score}`;
@@ -68,6 +71,10 @@ function createRow() {
 }
 
 function handleClick(cell) {
+  if (gameEnded || cell.classList.contains("clicked")) return;
+
+  cell.classList.add("clicked");
+
   const clickedRowIndex = Array.from(board.children).indexOf(cell.parentElement);
   const bottomRowIndex = board.children.length - 1;
 
@@ -89,8 +96,13 @@ function handleClick(cell) {
     return;
   }
 
-  clickSound.currentTime = 0;
-  clickSound.play();
+  try {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  } catch (e) {
+    console.warn("Click sound error:", e);
+  }
+
   score++;
   scoreDisplay.textContent = `得分：${score}`;
   board.removeChild(cell.parentElement);
@@ -99,14 +111,14 @@ function handleClick(cell) {
 
 function triggerFail(cell) {
   clearInterval(interval);
+  gameEnded = true;
   failSound.play();
   board.classList.add("centered");
-
   cell.classList.add("error");
 
   document.querySelectorAll(".cell").forEach(c => {
     const img = c.querySelector("img");
-    if (img && img.src.includes("photo1.jpg")) {
+    if (img && img.src.includes(photo1)) {
       img.src = photo2;
       img.classList.add("flashing");
     }
@@ -121,13 +133,16 @@ function playRandomEndSound() {
 }
 
 function endGame(isFail) {
+  gameEnded = true;
   showScreen(resultScreen);
   document.getElementById('final-score').textContent = `接住了 ${score} 个玉玉`;
-  document.getElementById('final-speed').textContent = `平均接玉速度：${(score / 20).toFixed(2)} 个/秒`;
+  document.getElementById('final-speed').textContent = `平均接玉速度：${(score / GAME_DURATION).toFixed(2)} 个/秒`;
+
   if (score > best) {
     best = score;
     localStorage.setItem("best", best);
   }
+
   document.getElementById('best-score').textContent = `最佳成绩：${best}`;
 
   if (score <= 10) {
@@ -145,4 +160,6 @@ function endGame(isFail) {
 
 function goHome() {
   showScreen(homeScreen);
+  board.innerHTML = '';
+  insultText.textContent = '';
 }
