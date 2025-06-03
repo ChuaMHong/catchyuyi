@@ -128,7 +128,9 @@ function triggerFail(cell) {
 }
 
 function playRandomEndSound() {
-  const sound = endSounds[Math.floor(Math.random() * endSounds.length)];
+  const availableSounds = endSounds.filter(sound => sound);
+  if (availableSounds.length === 0) return;
+  const sound = availableSounds[Math.floor(Math.random() * availableSounds.length)];
   sound.play();
 }
 
